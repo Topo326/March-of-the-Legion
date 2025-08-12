@@ -112,17 +112,7 @@ public class BattlefieldView {
     
     
     //Muestra información detallada de las tropas
-    
-    public void displayTroopsInfo(List<Troop> troops) {
-        System.out.println("INFORMACIÓN DE TROPAS:");
-        System.out.println("-".repeat(40));
-        
-        for (int i = 0; i < troops.size(); i++) {
-            Troop troop = troops.get(i);
-            System.out.printf("%2d. %s%n", i + 1, troop.toString());
-        }
-        System.out.println();
-    }
+
     
    
     // Muestra un mensaje de error

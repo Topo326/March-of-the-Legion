@@ -109,14 +109,11 @@ public class Battlefield {
     
     //Reorganiza el campo de batalla según la orientación especificada
     public void reorganizeField(List<Troop> troops) {
-        // Limpiar campo
         initializeEmptyField();
-        
-        // Colocar tropas según orientación
         int troopIndex = 0;
-        
+
         switch (orientation) {
-            case 'n': // Norte a Sur
+            case 'n':
                 for (int col = 0; col < size && troopIndex < troops.size(); col++) {
                     for (int row = 0; row < size && troopIndex < troops.size(); row++) {
                         Troop troop = troops.get(troopIndex);
@@ -127,8 +124,8 @@ public class Battlefield {
                     }
                 }
                 break;
-                
-            case 's': // Sur a Norte
+
+            case 's':
                 for (int col = 0; col < size && troopIndex < troops.size(); col++) {
                     for (int row = size - 1; row >= 0 && troopIndex < troops.size(); row--) {
                         Troop troop = troops.get(troopIndex);
@@ -139,8 +136,8 @@ public class Battlefield {
                     }
                 }
                 break;
-                
-            case 'e': // Este a Oeste
+
+            case 'e':
                 for (int row = 0; row < size && troopIndex < troops.size(); row++) {
                     for (int col = 0; col < size && troopIndex < troops.size(); col++) {
                         Troop troop = troops.get(troopIndex);
@@ -151,8 +148,8 @@ public class Battlefield {
                     }
                 }
                 break;
-                
-            case 'w': // Oeste a Este
+
+            case 'w':
                 for (int row = 0; row < size && troopIndex < troops.size(); row++) {
                     for (int col = size - 1; col >= 0 && troopIndex < troops.size(); col--) {
                         Troop troop = troops.get(troopIndex);

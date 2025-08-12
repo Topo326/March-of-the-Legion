@@ -59,7 +59,6 @@ public class BattleController {
             // Mostrar campo inicial
             view.displayLegend();
             view.displayBattlefield(battlefield, "CAMPO DE BATALLA INICIAL");
-            view.displayTroopsInfo(battlefield.getTroops());
             
             // Aplicar ordenamiento
             Sortable sorter = sortingAlgorithms.get(cliArgs.algorithm);
@@ -81,7 +80,6 @@ public class BattleController {
             
             // Mostrar campo final
             view.displayBattlefield(battlefield, "CAMPO DE BATALLA FINAL (ORDENADO)");
-            view.displayTroopsInfo(sortedTroops);
             
             view.displayMessage("¡Simulación completada exitosamente!");
             
