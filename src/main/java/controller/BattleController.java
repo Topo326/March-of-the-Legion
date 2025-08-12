@@ -101,9 +101,7 @@ public class BattleController {
             displayUsage();
         }
     }
-    
     // Parsea los argumentos de línea de comandos
-  
     private CommandLineArgs parseArguments(String[] args) throws InvalidParametersException {
         CommandLineArgs cliArgs = new CommandLineArgs();
         
