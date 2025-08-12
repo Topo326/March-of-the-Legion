@@ -106,58 +106,79 @@ public class Battlefield {
             }
         }
     }
-    
-    //Reorganiza el campo de batalla según la orientación especificada
+
+    // Reemplaza el método completo en tu archivo Battlefield.java
     public void reorganizeField(List<Troop> troops) {
         initializeEmptyField();
-        int troopIndex = 0;
+
+        Map<String, List<Troop>> troopsByType = new LinkedHashMap<>();
+        for (Troop troop : troops) {
+            troopsByType.computeIfAbsent(troop.getSymbol(), k -> new ArrayList<>()).add(troop);
+        }
+
+        // 3. Colocar los grupos en el campo según la orientación especificada.
+        String[] troopOrder = {"C", "M", "T", "S", "I"};
 
         switch (orientation) {
-            case 'n':
-                for (int col = 0; col < size && troopIndex < troops.size(); col++) {
-                    for (int row = 0; row < size && troopIndex < troops.size(); row++) {
-                        Troop troop = troops.get(troopIndex);
-                        field[row][col] = troop.getSymbol();
-                        troop.setX(row);
-                        troop.setY(col);
-                        troopIndex++;
+            case 'e':
+                int currentColE = 0;
+                for (String symbol : troopOrder) {
+                    List<Troop> group = troopsByType.get(symbol);
+                    if (group == null) continue;
+                    if (currentColE >= size) break;
+                    for (int i = 0; i < group.size(); i++) {
+                        int currentRow = size - 1 - i;
+                        if (currentRow < 0) break; // La columna está llena.
+                        field[currentRow][currentColE] = group.get(i).getSymbol();
                     }
+                    // Pasamos a la siguiente columna para el siguiente grupo.
+                    currentColE++;
                 }
                 break;
 
             case 's':
-                for (int col = 0; col < size && troopIndex < troops.size(); col++) {
-                    for (int row = size - 1; row >= 0 && troopIndex < troops.size(); row--) {
-                        Troop troop = troops.get(troopIndex);
-                        field[row][col] = troop.getSymbol();
-                        troop.setX(row);
-                        troop.setY(col);
-                        troopIndex++;
+                int currentRowS = 0;
+                for (String symbol : troopOrder) {
+                    List<Troop> group = troopsByType.get(symbol);
+                    if (group == null) continue;
+                    if (currentRowS >= size) break;
+                    for (int i = 0; i < group.size(); i++) {
+                        int currentCol = i;
+                        if (currentCol >= size) break;
+                        field[currentRowS][currentCol] = group.get(i).getSymbol();
                     }
+                    // Pasamos a la siguiente fila para el siguiente grupo.
+                    currentRowS++;
                 }
                 break;
-
-            case 'e':
-                for (int row = 0; row < size && troopIndex < troops.size(); row++) {
-                    for (int col = 0; col < size && troopIndex < troops.size(); col++) {
-                        Troop troop = troops.get(troopIndex);
-                        field[row][col] = troop.getSymbol();
-                        troop.setX(row);
-                        troop.setY(col);
-                        troopIndex++;
+            case 'n':
+                int currentRowN = size - 1;
+                for (String symbol : troopOrder) {
+                    List<Troop> group = troopsByType.get(symbol);
+                    if (group == null) continue;
+                    if (currentRowN < 0) break;
+                    for (int i = 0; i < group.size(); i++) {
+                        int currentCol = i;
+                        if (currentCol >= size) break; // La fila está llena.
+                        field[currentRowN][currentCol] = group.get(i).getSymbol();
                     }
+
+                    currentRowN--;
                 }
                 break;
 
             case 'w':
-                for (int row = 0; row < size && troopIndex < troops.size(); row++) {
-                    for (int col = size - 1; col >= 0 && troopIndex < troops.size(); col--) {
-                        Troop troop = troops.get(troopIndex);
-                        field[row][col] = troop.getSymbol();
-                        troop.setX(row);
-                        troop.setY(col);
-                        troopIndex++;
+                int currentColW = size - 1;
+                for (String symbol : troopOrder) {
+                    List<Troop> group = troopsByType.get(symbol);
+                    if (group == null) continue;
+                    if (currentColW < 0) break;
+                    for (int i = 0; i < group.size(); i++) {
+                        int currentRow = size - 1 - i;
+                        if (currentRow < 0) break;
+                        field[currentRow][currentColW] = group.get(i).getSymbol();
                     }
+                    currentColW--;
                 }
                 break;
         }
