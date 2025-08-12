@@ -107,7 +107,7 @@ public class Battlefield {
         }
     }
 
-    // Reemplaza el método completo en tu archivo Battlefield.java
+
     public void reorganizeField(List<Troop> troops) {
         initializeEmptyField();
 
