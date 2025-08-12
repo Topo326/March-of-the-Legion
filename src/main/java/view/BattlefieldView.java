@@ -86,8 +86,6 @@ public class BattlefieldView {
         System.out.println("Total de tropas: " + Arrays.stream(troopCounts).sum());
         System.out.println();
     }
-    
-    
     //Obtiene la descripción de la orientación
     
     private String getOrientationDescription(char orientation) {
@@ -109,12 +107,7 @@ public class BattlefieldView {
         System.out.printf("Tiempo: %.3f milisegundos%n", executionTime / 1_000_000.0);
         System.out.println();
     }
-    
-    
-    //Muestra información detallada de las tropas
 
-    
-   
     // Muestra un mensaje de error
 
     public void displayError(String error) {

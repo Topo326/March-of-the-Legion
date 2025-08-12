@@ -115,7 +115,6 @@ public class Battlefield {
         for (Troop troop : troops) {
             troopsByType.computeIfAbsent(troop.getSymbol(), k -> new ArrayList<>()).add(troop);
         }
-
         // 3. Colocar los grupos en el campo según la orientación especificada.
         String[] troopOrder = {"C", "M", "T", "S", "I"};
 
@@ -162,7 +161,6 @@ public class Battlefield {
                         if (currentCol >= size) break; // La fila está llena.
                         field[currentRowN][currentCol] = group.get(i).getSymbol();
                     }
-
                     currentRowN--;
                 }
                 break;
