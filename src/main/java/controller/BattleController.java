@@ -54,7 +54,7 @@ public class BattleController {
             );
             
             // Generar tropas aleatoriamente
-            battlefield.generateRandomTroops(cliArgs.troopCounts);
+            battlefield.generateRandomTroops(cliArgs.troopCounts, cliArgs.sortType);
             
             // Mostrar campo inicial
             view.displayLegend();
@@ -76,7 +76,7 @@ public class BattleController {
             view.displayExecutionTime(sorter.getAlgorithmName(), executionTime);
             
             // Reorganizar campo según orientación
-            battlefield.reorganizeField(sortedTroops);
+            battlefield.reorganizeField(sortedTroops, cliArgs.sortType);
             
             // Mostrar campo final
             view.displayBattlefield(battlefield, "CAMPO DE BATALLA FINAL (ORDENADO)");

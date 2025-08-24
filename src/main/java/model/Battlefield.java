@@ -15,7 +15,7 @@ public class Battlefield {
     private char orientation;
     
     // Constantes para tipos de tropas
-    private static final String[] TROOP_SYMBOLS = {"C", "M", "T", "S", "I"};
+    private static final String[] TROOP_SYMBOLS_CHARACTER = {"C", "M", "T", "S", "I"};
     private static final String EMPTY_SYMBOL = "*";
     
     //Constructor del campo de batalla
@@ -62,7 +62,7 @@ public class Battlefield {
     
 
     //Genera tropas aleatoriamente según las cantidades especificadas
-    public void generateRandomTroops(int[] troopCounts) throws TooManyTroopsException {
+    public void generateRandomTroops(int[] troopCounts, char sortType) throws TooManyTroopsException {
         int totalTroops = Arrays.stream(troopCounts).sum();
         
         if (totalTroops > size * size) {
@@ -74,17 +74,17 @@ public class Battlefield {
         initializeEmptyField();
         
         // Generar tropas por tipo
-        generateTroopsByType(troopCounts[0], Commander.class, 0);
-        generateTroopsByType(troopCounts[1], Medic.class, 1);
-        generateTroopsByType(troopCounts[2], Tank.class, 2);
-        generateTroopsByType(troopCounts[3], Sniper.class, 3);
-        generateTroopsByType(troopCounts[4], Infantry.class, 4);
+        generateTroopsByType(troopCounts[0], Commander.class, 0, sortType);
+        generateTroopsByType(troopCounts[1], Medic.class, 1, sortType);
+        generateTroopsByType(troopCounts[2], Tank.class, 2, sortType);
+        generateTroopsByType(troopCounts[3], Sniper.class, 3, sortType);
+        generateTroopsByType(troopCounts[4], Infantry.class, 4, sortType);
     }
     
    
     //Genera tropas de un tipo específico
 
-    private void generateTroopsByType(int count, Class<? extends Troop> troopClass, int typeIndex) {
+    private void generateTroopsByType(int count, Class<? extends Troop> troopClass, int typeIndex, char sortType) {
         Random random = new Random();
         
         for (int i = 0; i < count; i++) {
@@ -100,7 +100,12 @@ public class Battlefield {
             try {
                 Troop troop = troopClass.getConstructor(int.class, int.class).newInstance(x, y);
                 troops.add(troop);
-                field[x][y] = TROOP_SYMBOLS[typeIndex];
+
+                if (sortType == 'n') {
+                    field[x][y] = String.valueOf(troop.getRank());
+                } else {
+                    field[x][y] = TROOP_SYMBOLS_CHARACTER[typeIndex];
+                }
             } catch (Exception e) {
                 System.err.println("Error al crear tropa: " + e.getMessage());
             }
@@ -108,80 +113,121 @@ public class Battlefield {
     }
 
 
-    public void reorganizeField(List<Troop> troops) {
+    public void reorganizeField(List<Troop> troops, char sortType) {
         initializeEmptyField();
 
+        // Agrupar las tropas por su símbolo.
         Map<String, List<Troop>> troopsByType = new LinkedHashMap<>();
         for (Troop troop : troops) {
             troopsByType.computeIfAbsent(troop.getSymbol(), k -> new ArrayList<>()).add(troop);
         }
-        // 3. Colocar los grupos en el campo según la orientación especificada.
-        String[] troopOrder = {"C", "M", "T", "S", "I"};
+
+        String[] troopOrderByCharacter = TROOP_SYMBOLS_CHARACTER;
 
         switch (orientation) {
-            case 'e':
-                int currentColE = 0;
-                for (String symbol : troopOrder) {
+
+            case 's':
+                int rowS = 0, colS = 0;
+                for (String symbol : troopOrderByCharacter) {
                     List<Troop> group = troopsByType.get(symbol);
                     if (group == null) continue;
-                    if (currentColE >= size) break;
-                    for (int i = 0; i < group.size(); i++) {
-                        int currentRow = size - 1 - i;
-                        if (currentRow < 0) break; // La columna está llena.
-                        field[currentRow][currentColE] = group.get(i).getSymbol();
+
+                    for (Troop troop : group) {
+                        if (colS >= size) { // Si la fila actual se llena, saltar a la siguiente.
+                            colS = 0;
+                            rowS++;
+                        }
+                        if (rowS >= size) break; // Si el campo de batalla se llena, parar.
+
+                        String valueToDisplay = (sortType == 'n') ? String.valueOf(troop.getRank()) : troop.getSymbol();
+                        field[rowS][colS] = valueToDisplay;
+                        colS++;
                     }
-                    // Pasamos a la siguiente columna para el siguiente grupo.
-                    currentColE++;
+                    if (colS != 0) { // Forzar que el siguiente grupo empiece en una nueva fila.
+                        rowS++;
+                        colS = 0;
+                    }
+                    if (rowS >= size) break;
                 }
                 break;
 
-            case 's':
-                int currentRowS = 0;
-                for (String symbol : troopOrder) {
-                    List<Troop> group = troopsByType.get(symbol);
-                    if (group == null) continue;
-                    if (currentRowS >= size) break;
-                    for (int i = 0; i < group.size(); i++) {
-                        int currentCol = i;
-                        if (currentCol >= size) break;
-                        field[currentRowS][currentCol] = group.get(i).getSymbol();
-                    }
-                    // Pasamos a la siguiente fila para el siguiente grupo.
-                    currentRowS++;
-                }
-                break;
+
             case 'n':
-                int currentRowN = size - 1;
-                for (String symbol : troopOrder) {
+                int rowN = size - 1, colN = 0;
+                for (String symbol : troopOrderByCharacter) {
                     List<Troop> group = troopsByType.get(symbol);
                     if (group == null) continue;
-                    if (currentRowN < 0) break;
-                    for (int i = 0; i < group.size(); i++) {
-                        int currentCol = i;
-                        if (currentCol >= size) break; // La fila está llena.
-                        field[currentRowN][currentCol] = group.get(i).getSymbol();
+
+                    for (Troop troop : group) {
+                        if (colN >= size) {
+                            colN = 0;
+                            rowN--;
+                        }
+                        if (rowN < 0) break;
+
+                        String valueToDisplay = (sortType == 'n') ? String.valueOf(troop.getRank()) : troop.getSymbol();
+                        field[rowN][colN] = valueToDisplay;
+                        colN++;
                     }
-                    currentRowN--;
+                    if (colN != 0) {
+                        rowN--;
+                        colN = 0;
+                    }
+                    if (rowN < 0) break;
                 }
                 break;
 
             case 'w':
-                int currentColW = size - 1;
-                for (String symbol : troopOrder) {
+                int rowW = 0, colW = 0;
+                for (String symbol : troopOrderByCharacter) {
                     List<Troop> group = troopsByType.get(symbol);
                     if (group == null) continue;
-                    if (currentColW < 0) break;
-                    for (int i = 0; i < group.size(); i++) {
-                        int currentRow = size - 1 - i;
-                        if (currentRow < 0) break;
-                        field[currentRow][currentColW] = group.get(i).getSymbol();
+
+                    for (Troop troop : group) {
+                        if (rowW >= size) {
+                            rowW = 0;
+                            colW++;
+                        }
+                        if (colW >= size) break;
+
+                        String valueToDisplay = (sortType == 'n') ? String.valueOf(troop.getRank()) : troop.getSymbol();
+                        field[rowW][colW] = valueToDisplay;
+                        rowW++;
                     }
-                    currentColW--;
+                    if (rowW != 0) {
+                        colW++;
+                        rowW = 0;
+                    }
+                    if (colW >= size) break;
+                }
+                break;
+
+            case 'e':
+                int rowE = size - 1, colE = 0;
+                for (String symbol : troopOrderByCharacter) {
+                    List<Troop> group = troopsByType.get(symbol);
+                    if (group == null) continue;
+
+                    for (Troop troop : group) {
+                        if (rowE < 0) {
+                            rowE = size - 1;
+                            colE++;
+                        }
+                        if (colE >= size) break;
+
+                        String valueToDisplay = (sortType == 'n') ? String.valueOf(troop.getRank()) : troop.getSymbol();
+                        field[rowE][colE] = valueToDisplay;
+                        rowE--;
+                    }
+                    if (rowE != size - 1) {
+                        colE++;
+                        rowE = size - 1;
+                    }
+                    if (colE >= size) break;
                 }
                 break;
         }
     }
-    
     // Getters
     public String[][] getField() { return field; }
     public List<Troop> getTroops() { return troops; }
