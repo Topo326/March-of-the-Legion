@@ -22,10 +22,10 @@ public class BubbleSort implements Sortable {
                 boolean shouldSwap = false;
                 
                 if (sortType == 'n') {
-                    // Ordenamiento numérico por rango
+                   
                     shouldSwap = troop1.getRank() > troop2.getRank();
                 } else if (sortType == 'c') {
-                    // Ordenamiento por caracter (símbolo)
+    
                     shouldSwap = troop1.getSymbol().compareTo(troop2.getSymbol()) > 0;
                 }
                 

@@ -5,8 +5,6 @@ package model;
  * Hereda de Troop e implementa comportamiento específico del francotirador
  */
 public class Sniper extends Troop {
-    
-    //Constructor de Sniper
 
     public Sniper(int x, int y) {
         // Sniper: vida baja, velocidad alta, fuerza alta, rango 31-40
@@ -15,13 +13,11 @@ public class Sniper extends Troop {
     
     @Override
     public void move() {
-        // Sniper se mueve rápidamente para posicionarse estratégicamente
         System.out.println("Sniper se reposiciona rápidamente para obtener el mejor ángulo de tiro");
     }
     
     @Override
     public void attack() {
-        // Sniper tiene ataques de alta precisión
         System.out.println("Sniper dispara con precisión letal y fuerza " + getStrength());
     }
     

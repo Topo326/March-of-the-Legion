@@ -5,24 +5,19 @@ package model;
  * Hereda de Troop e implementa comportamiento específico de la infantería
  */
 public class Infantry extends Troop {
-    
-   
-    // Constructor de Infantry
+
     
     public Infantry(int x, int y) {
-        // Infantry: vida media, velocidad media, fuerza media, rango 41-50
         super(60, 6, 60, 41 + (int)(Math.random() * 10), x, y, "I");
     }
     
     @Override
     public void move() {
-        // Infantry se mueve de manera versátil
         System.out.println("Infantry se mueve de manera ágil y versátil por el campo de batalla");
     }
     
     @Override
     public void attack() {
-        // Infantry tiene ataques balanceados
         System.out.println("Infantry ataca con fuerza " + getStrength() + " usando tácticas de combate");
     }
     

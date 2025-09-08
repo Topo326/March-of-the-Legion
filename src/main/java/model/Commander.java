@@ -13,13 +13,11 @@ public class Commander extends Troop {
     
     @Override
     public void move() {
-        // Commander se mueve lentamente pero estratégicamente
         System.out.println("Commander se mueve estratégicamente a una nueva posición");
     }
     
     @Override
     public void attack() {
-        // Commander tiene ataques poderosos
         System.out.println("Commander ordena un ataque coordinado con fuerza " + getStrength());
     }
     
