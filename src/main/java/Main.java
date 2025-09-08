@@ -7,7 +7,6 @@ import controller.BattleController;
 public class Main {
     public static void main(String[] args) {
         try {
-            // Crear el controlador y ejecutar el programa
             BattleController controller = new BattleController();
             controller.run(args);
         } catch (Exception e) {

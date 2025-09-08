@@ -5,8 +5,7 @@ package model;
  * Implementa encapsulamiento y define la interfaz común para todas las tropas
  */
 public abstract class Troop {
-    
-    // Atributos encapsulados - privados
+
     private int health;
     private int speed;
     private int strength;
@@ -14,8 +13,6 @@ public abstract class Troop {
     private int x;
     private int y;
     private String symbol;
-    
-    //Constructor de la clase Troop
 
     public Troop(int health, int speed, int strength, int rank, int x, int y, String symbol) {
         this.health = health;
@@ -27,7 +24,6 @@ public abstract class Troop {
         this.symbol = symbol;
     }
     
-    // Getters y Setters para encapsulamiento
     public int getHealth() { return health; }
     public void setHealth(int health) { this.health = health; }
     
@@ -49,15 +45,10 @@ public abstract class Troop {
     public String getSymbol() { return symbol; }
     public void setSymbol(String symbol) { this.symbol = symbol; }
     
-    // Métodos abstractos que deben ser implementados por las clases hijas
     public abstract void move();
     public abstract void attack();
-    
-    // Método polimórfico para obtener información de la tropa
 
     public abstract String getTroopInfo();
-    
-    //Método polimórfico para obtener el tipo de tropa
   
     public abstract String getTroopType();
     

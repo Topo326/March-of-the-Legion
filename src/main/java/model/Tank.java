@@ -5,8 +5,6 @@ package model;
  * Hereda de Troop e implementa comportamiento específico del tanque
  */
 public class Tank extends Troop {
-    
-    //Constructor de Tank
 
     public Tank(int x, int y) {
         // Tank: muy alta vida, baja velocidad, muy alta fuerza, rango 21-30
@@ -15,13 +13,11 @@ public class Tank extends Troop {
     
     @Override
     public void move() {
-        // Tank se mueve lentamente pero es muy resistente
         System.out.println("Tank avanza lentamente pero con gran poder destructivo");
     }
     
     @Override
     public void attack() {
-        // Tank tiene ataques devastadores
         System.out.println("Tank dispara con fuerza " + getStrength() + " causando destrucción masiva");
     }
     

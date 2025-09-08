@@ -13,13 +13,11 @@ public class Medic extends Troop {
     
     @Override
     public void move() {
-        // Medic se mueve para ayudar a tropas heridas
         System.out.println("Medic se mueve rápidamente para asistir a tropas heridas");
     }
     
     @Override
     public void attack() {
-        // Medic tiene ataques débiles pero puede curar
         System.out.println("Medic ataca con fuerza " + getStrength() + " y cura aliados cercanos");
     }
     
